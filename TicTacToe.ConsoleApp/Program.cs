@@ -18,34 +18,16 @@ namespace TicTacToe.ConsoleApp
                 Console.WriteLine(string.Format("{0}:{1}", cell.Row, cell.Col));
             }
 
+            PlayersReady(protoBoard);
+
             Console.WriteLine("Press ENTER to begin.");
             Console.ReadLine();
         }
 
         public static GameBoard CreateGameBoard()
         {
-            int cols = 0; int rows = 0;
-
-            while (rows == 0)
-            {
-                Console.WriteLine("How many rows?: ");
-
-                if (!int.TryParse(Console.ReadLine(), out rows))
-                {
-                    Console.WriteLine("Enter an integer value (Example: 3): ");
-                }
-            }
-
-            while (cols == 0)
-            {
-                Console.WriteLine("How many columns?: ");
-
-                if (!int.TryParse(Console.ReadLine(), out cols))
-                {
-                    Console.WriteLine("Enter an integer value (Example: 3): ");
-                }
-            }
-
+            int cols = MustBeANumber("How many columns?: ");
+            int rows = MustBeANumber("How many rows?: ");
 
             var protoBoard = new GameBoard();
             protoBoard.Generate(rows, cols);
@@ -53,6 +35,39 @@ namespace TicTacToe.ConsoleApp
             return protoBoard;
         }
 
+        public static void PlayersReady(GameBoard board)
+        {
+            var count = MustBeANumber("How many players?: ");
+
+            for (int p = 0; p < count; p++)
+            {
+                Console.Write(string.Format("Name of player {0}: ", p + 1));
+                var name = Console.ReadLine();
+                var marker = "";
+                while (string.IsNullOrWhiteSpace(marker))
+                {
+                    Console.Write(name + "'s marker: ");
+                    marker = (Console.ReadKey().KeyChar).ToString();
+                }
+                Console.WriteLine();
+                board.Players.Add(new Player { Name = name, Marker = marker });
+            }
+        }
+
+        private static int MustBeANumber(string message)
+        {
+            int ans = 0;
+            while (ans == 0)
+            {
+                Console.Write(message);
+
+                if (!int.TryParse(Console.ReadLine(), out ans))
+                {
+                    Console.WriteLine("Enter an integer value (Example: 3): ");
+                }
+            }
+            return ans;
+        }
 
     }
 }
