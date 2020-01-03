@@ -12,11 +12,12 @@ namespace TicTacToe.ConsoleApp
             Console.ReadLine();
 
             var protoBoard= CreateGameBoard();
+            GameBoardRenderer.Render(protoBoard);
 
-            foreach (var cell in protoBoard.Grid.Cells) 
+         /*   foreach (var cell in protoBoard.Grid.Cells) 
             {
                 Console.WriteLine(string.Format("{0}:{1}", cell.Row, cell.Col));
-            }
+            }*/
 
             PlayersReady(protoBoard);
 
@@ -37,9 +38,9 @@ namespace TicTacToe.ConsoleApp
 
         public static void PlayersReady(GameBoard board)
         {
-            var count = MustBeANumber("How many players?: ");
+            var players = MustBeANumber("How many players?: ");
 
-            for (int p = 0; p < count; p++)
+            for (int p = 0; p < players; p++)
             {
                 Console.Write(string.Format("Name of player {0}: ", p + 1));
                 var name = Console.ReadLine();
@@ -47,10 +48,12 @@ namespace TicTacToe.ConsoleApp
                 while (string.IsNullOrWhiteSpace(marker))
                 {
                     Console.Write(name + "'s marker: ");
-                    marker = (Console.ReadKey().KeyChar).ToString();
+                    marker = Console.ReadKey().KeyChar.ToString();
                 }
                 Console.WriteLine();
+
                 board.Players.Add(new Player { Name = name, Marker = marker });
+
             }
         }
 
@@ -68,6 +71,8 @@ namespace TicTacToe.ConsoleApp
             }
             return ans;
         }
+
+        
 
     }
 }
