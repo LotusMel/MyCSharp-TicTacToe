@@ -10,6 +10,7 @@ namespace TicTacToe.ConsoleApp
         public static void Render(GameBoard protoBoard)
         {
             RenderTopBar(protoBoard);
+
             for (var r = 0; r < protoBoard.Grid.Rows; r++)
             {
                 RenderRowLine(protoBoard, r, 0);
